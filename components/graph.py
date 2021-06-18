@@ -1,5 +1,6 @@
 from config import *
 
+
 class Edge:
     def __init__(self, x, y, x_2, y_2, colour):
         self.start = (x, y)
@@ -14,6 +15,7 @@ class Edge:
 
     def done(self):
         self.colour = WHITE
+
 
 class Node:
     def __init__(self, x, y, colour):
