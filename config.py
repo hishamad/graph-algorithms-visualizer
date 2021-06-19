@@ -9,10 +9,12 @@ pygame.init()
 pygame.font.init()
 
 # Window setting
-WIDTH, HEIGHT = 1600, 1000
+infoObject = pygame.display.Info()
+W_FACTOR = 0.75
+WIDTH = int(infoObject.current_w * W_FACTOR)
+HEIGHT = int(infoObject.current_h * W_FACTOR)
 WINDOW = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption('Graph Algorithms Visualizer')
-FPS = 600
 
 # Font
 FONT = pygame.font.Font(os.path.join('resources', 'seguisym.ttf'), 30)
@@ -31,10 +33,10 @@ BROWN = (255, 229, 204)
 LIGHT_GREY = (128, 128, 128)
 
 # Menu
-MENU = pygame.Rect(0, 850, WIDTH, 150)
-MENU_BORDER = pygame.Rect(797, 850, 5, 150)
+CM_FACTOR = 0.1
+CONTROL_MENU = pygame.Rect(0, HEIGHT-CM_FACTOR*HEIGHT, WIDTH, CM_FACTOR*HEIGHT)
 
 # Graph settings
-NODE_RADIUS = 50
-LINE_THICKNESS = 5
+NODE_RADIUS = WIDTH//int(0.019*WIDTH)
+LINE_THICKNESS = WIDTH//int(0.1*WIDTH)
 

@@ -10,11 +10,19 @@ class Edge:
     def display(self):
         pygame.draw.line(WINDOW, self.colour, self.start, self.end, LINE_THICKNESS)
 
-    def visit(self):
+    def directed_visit(self):
         self.colour = GREEN
 
-    def done(self):
+    def undirected_visit(self, other):
+        self.colour = GREEN
+        other.colour = GREEN
+
+    def directed_done(self):
         self.colour = WHITE
+
+    def undirected_done(self, other):
+        self.colour = WHITE
+        other.colour = WHITE
 
 
 class Node:

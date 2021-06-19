@@ -1,4 +1,3 @@
-from config import *
 from components.graph import *
 from algorithms.bfs import *
 from draw import *
@@ -9,6 +8,7 @@ def main():
                       [6], [6], [7]]
 
     nodes, edges = construct_graph(adjacency_list)
+    MENU_VISIBLE = True
     while True:
         for event in pygame.event.get():
             pos = pygame.mouse.get_pos()
@@ -18,6 +18,7 @@ def main():
                 sys.exit()
 
             if event.type == pygame.MOUSEBUTTONDOWN:
+                MENU_VISIBLE = False
                 if pygame.mouse.get_pressed()[0]:
                     if reset_graph_button.is_over(pos):
                         nodes, edges = construct_graph(adjacency_list)
@@ -33,7 +34,10 @@ def main():
                 reset_graph_button.colour = GREEN
                 bfs_button.colour = GREEN
 
-        draw(buttons, nodes, edges)
+        if MENU_VISIBLE:
+            draw_menu(MENU_VISIBLE)
+        else:
+            draw(buttons, nodes, edges)
 
 
 main()
