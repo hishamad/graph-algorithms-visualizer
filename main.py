@@ -1,3 +1,5 @@
+import pygame.time
+
 from components.graph import *
 from algorithms.bfs import *
 from draw import *
@@ -8,7 +10,7 @@ def main():
                       [6], [6], [7]]
 
     nodes, edges = construct_graph(adjacency_list)
-    MENU_VISIBLE = True
+    menu_visible = True
     while True:
         for event in pygame.event.get():
             pos = pygame.mouse.get_pos()
@@ -18,26 +20,22 @@ def main():
                 sys.exit()
 
             if event.type == pygame.MOUSEBUTTONDOWN:
-                MENU_VISIBLE = False
                 if pygame.mouse.get_pressed()[0]:
-                    if reset_graph_button.is_over(pos):
+                    if reset_graph_button.on_top(pos):
                         nodes, edges = construct_graph(adjacency_list)
-
-                    elif bfs_button.is_over(pos):
-                        bfs(lambda: draw(buttons, nodes, edges), adjacency_list, nodes, edges)
-
-            if reset_graph_button.is_over(pos):
-                reset_graph_button.colour = GREY
-            elif bfs_button.is_over(pos):
-                bfs_button.colour = GREY
-            else:
-                reset_graph_button.colour = GREEN
-                bfs_button.colour = GREEN
-
-        if MENU_VISIBLE:
-            draw_menu(MENU_VISIBLE)
+                    elif start_button.on_top(pos):
+                        nodes, edges = construct_graph(adjacency_list)
+                        time.sleep(1)
+                        bfs(lambda: draw(control_buttons, nodes, edges), adjacency_list, nodes, edges, control_buttons)
+                        nodes, edges = construct_graph(adjacency_list)
+                    elif bfs_button.on_top(pos):
+                        menu_visible = False
+            control_buttons[0].hover_effect(control_buttons)
+            menu_buttons[0].hover_effect(menu_buttons)
+        if menu_visible:
+            draw_menu()
         else:
-            draw(buttons, nodes, edges)
+            draw(control_buttons, nodes, edges)
 
 
 main()
