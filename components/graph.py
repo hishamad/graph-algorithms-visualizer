@@ -59,13 +59,13 @@ def construct_graph(adjacency_list):
     nodes = []
     edges = [{} for x in adjacency_list]
     i, j = 0, 0
-
-    for x in range(200, WIDTH, 400):  # [200, 600, 1000, 1400]
-        for y in range(150, 1000, 300):  # [100, 500, 900]
+    print(WIDTH, HEIGHT)
+    for x in range(int(0.1*WIDTH), WIDTH, int(0.25*WIDTH)):  # [200, 600, 1000, 1400]
+        for y in range(int(0.2*HEIGHT), int(HEIGHT-0.1*HEIGHT), int(0.3*HEIGHT)):  # [100, 500, 900]
             if i % 2 == 0:
-                x += 50
+                x += int(0.025*WIDTH)
             else:
-                y -= 75
+                y -= int(0.04*WIDTH)
             nodes.append(Node(x, y, LIGHT_GREY))
             j += 1
         i += 1

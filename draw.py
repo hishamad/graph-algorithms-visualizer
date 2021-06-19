@@ -30,7 +30,6 @@ def draw_graph(nodes, edges):
 
 def draw_menu(VISIBLE):
     WINDOW.fill(GREY)
-
     pygame.display.update()
 
 
