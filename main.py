@@ -1,7 +1,7 @@
 import pygame.time
-
 from components.graph import *
 from algorithms.bfs import *
+from algorithms.dfs import *
 from draw import *
 
 
@@ -11,6 +11,7 @@ def main():
 
     nodes, edges = construct_graph(adjacency_list)
     menu_visible = True
+    is_bfs, is_dfs = False, False
     while True:
         for event in pygame.event.get():
             pos = pygame.mouse.get_pos()
@@ -23,15 +24,27 @@ def main():
                 if pygame.mouse.get_pressed()[0]:
                     if reset_graph_button.on_top(pos):
                         nodes, edges = construct_graph(adjacency_list)
-                    elif start_button.on_top(pos):
+                    elif back_button.on_top(pos):
+                        menu_visible = True
                         nodes, edges = construct_graph(adjacency_list)
-                        time.sleep(1)
+                        is_dfs = False
+                        is_bfs = False
+                    elif start_button.on_top(pos) and is_bfs:
+                        nodes, edges = construct_graph(adjacency_list)
                         bfs(lambda: draw(control_buttons, nodes, edges), adjacency_list, nodes, edges, control_buttons)
+                    elif start_button.on_top(pos) and is_dfs:
                         nodes, edges = construct_graph(adjacency_list)
+                        dfs()
                     elif bfs_button.on_top(pos):
                         menu_visible = False
-            control_buttons[0].hover_effect(control_buttons)
-            menu_buttons[0].hover_effect(menu_buttons)
+                        is_bfs = True
+                    elif dfs_button.on_top(pos):
+                        menu_visible = False
+                        is_dfs = True
+
+        control_buttons[0].hover_effect(control_buttons)
+        menu_buttons[0].hover_effect(menu_buttons)
+
         if menu_visible:
             draw_menu()
         else:

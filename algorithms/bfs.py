@@ -51,14 +51,14 @@ def reconstruct_path(draw, s, prev, nodes, edges, control_buttons):
     while prev[curr]:
         for event in pygame.event.get():
             cont = handle_control_menu(event, control_buttons, draw)
-        nodes[curr].visit()
-        nodes[prev[curr]].visit()
-        edges[curr][prev[curr]].undirected_visit(edges[prev[curr]][curr])
+        nodes[curr].shortest_path()
+        nodes[prev[curr]].shortest_path()
+        edges[curr][prev[curr]].undirected_shortest_path(edges[prev[curr]][curr])
         curr = prev[curr]
         update(draw)
 
-    edges[curr][s].undirected_visit(edges[s][curr])
-    nodes[s].visit()
+    edges[curr][s].undirected_shortest_path(edges[s][curr])
+    nodes[s].shortest_path()
     update(draw)
 
 

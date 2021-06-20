@@ -9,9 +9,9 @@ class Button:
 
     def display(self):
         pygame.draw.rect(WINDOW, True, (self.rect.x - 2, self.rect.y - 2, self.rect.width + 4, self.rect.height + 4), 0,
-                         5, 5, 5, 5)
-        pygame.draw.rect(WINDOW, self.colour, (self.rect.x, self.rect.y, self.rect.width, self.rect.height), 0, 5, 5, 5,
-                         5)
+                         1, 1, 1, 1)
+        pygame.draw.rect(WINDOW, self.colour, (self.rect.x, self.rect.y, self.rect.width, self.rect.height), 0, 1, 1, 1,
+                         1)
         text = FONT.render(self.text, 1, WHITE)
         WINDOW.blit(text,
                     (self.rect.x + (self.rect.width / 2 - text.get_width() / 2),

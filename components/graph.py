@@ -24,6 +24,10 @@ class Edge:
         self.colour = WHITE
         other.colour = WHITE
 
+    def undirected_shortest_path(self, other):
+        self.colour = PINK
+        other.colour = PINK
+
 
 class Node:
     def __init__(self, x, y, colour):
@@ -47,6 +51,9 @@ class Node:
     def done(self):
         self.colour = ORANGE
 
+    def shortest_path(self):
+        self.colour = PINK
+
 
 def generate_random_graph():
     n = 12
@@ -59,13 +66,12 @@ def construct_graph(adjacency_list):
     nodes = []
     edges = [{} for x in adjacency_list]
     i, j = 0, 0
-    print(WIDTH, HEIGHT)
-    for x in range(int(0.1*WIDTH), WIDTH, int(0.25*WIDTH)):  # [200, 600, 1000, 1400]
-        for y in range(int(0.2*HEIGHT), int(HEIGHT-0.1*HEIGHT), int(0.3*HEIGHT)):  # [100, 500, 900]
+    for x in range(int(0.1 * WIDTH), WIDTH, int(0.25 * WIDTH)):  # [200, 600, 1000, 1400]
+        for y in range(int(0.2 * HEIGHT), int(HEIGHT - 0.1 * HEIGHT), int(0.3 * HEIGHT)):  # [100, 500, 900]
             if i % 2 == 0:
-                x += int(0.025*WIDTH)
+                x += int(0.025 * WIDTH)
             else:
-                y -= int(0.04*WIDTH)
+                y -= int(0.04 * WIDTH)
             nodes.append(Node(x, y, LIGHT_GREY))
             j += 1
         i += 1

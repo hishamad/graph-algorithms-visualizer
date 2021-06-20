@@ -17,7 +17,7 @@ WINDOW = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption('Graph Algorithms Visualizer')
 
 # Font
-FONT = pygame.font.Font(os.path.join('resources', 'seguisym.ttf'), 30)
+FONT = pygame.font.Font(os.path.join('resources', 'seguisym.ttf'), WIDTH//55)
 
 # Colours
 BLACK = (0, 0, 0)
