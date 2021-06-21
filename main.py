@@ -6,11 +6,18 @@ from algorithms.dfs import *
 from draw import *
 
 
-def main():
-    adjacency_list = [[1, 3, 4], [0, 4], [4], [0, 4], [0, 1, 2, 3, 5, 6], [4, 7, 8], [4, 9, 10], [5, 8, 11], [5, 7],
+menu_visible, is_dfs, is_bfs = True, False, False
+
+
+adjacency_list = [[1, 3, 4], [0, 4], [4], [0, 4], [0, 1, 2, 3, 5, 6], [4, 7, 8], [4, 9, 10], [5, 8, 11], [5, 7],
                       [6], [6], [7]]
 
-    graph = Graph(adjacency_list)
+graph = Graph(adjacency_list)
+weighted_graph = Graph(adjacency_list, True)
+
+
+def main():
+    global menu_visible, is_dfs, is_bfs, adjacency_list, graph
 
     menu_visible = True
     is_bfs, is_dfs = False, False
@@ -27,23 +34,21 @@ def main():
                     if reset_graph_button.on_top(pos):
                         graph = Graph(adjacency_list)
                     elif back_button.on_top(pos):
-                        menu_visible = True
-                        graph = Graph(adjacency_list)
-                        is_dfs = False
-                        is_bfs = False
+                        handle_back_button()
                     elif start_button.on_top(pos) and is_bfs:
                         graph = Graph(adjacency_list)
                         reset, back = bfs(graph)
                         if reset:
                             graph = Graph(adjacency_list)
                         elif back:
-                            menu_visible = True
-                            graph = Graph(adjacency_list)
-                            is_dfs = False
-                            is_bfs = False
+                            handle_back_button()
                     elif start_button.on_top(pos) and is_dfs:
                         graph = Graph(adjacency_list)
-                        dfs()
+                        reset, back = dfs(graph)
+                        if reset:
+                            graph = Graph(adjacency_list)
+                        elif back:
+                            handle_back_button()
                     elif bfs_button.on_top(pos):
                         menu_visible = False
                         is_bfs = True
@@ -58,6 +63,14 @@ def main():
             draw_menu()
         else:
             draw(graph)
+
+
+def handle_back_button():
+    global menu_visible, is_dfs, is_bfs, adjacency_list, graph
+    menu_visible = True
+    graph = Graph(adjacency_list)
+    is_dfs = False
+    is_bfs = False
 
 
 main()

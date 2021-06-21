@@ -2,8 +2,9 @@ from config import *
 
 
 class Graph:
-    def __init__(self, adjacency_list):
+    def __init__(self, adjacency_list, weighted=False):
         self.adjacency_list = adjacency_list
+        self.weighted = weighted
         self.nodes, self.edges = self.construct_graph()
 
     def construct_graph(self):
@@ -23,6 +24,10 @@ class Graph:
         for node, neighbours in enumerate(self.adjacency_list):
             for neighbour in neighbours:
                 edges[node][neighbour] = Edge(nodes[node].x, nodes[node].y, nodes[neighbour].x, nodes[neighbour].y, WHITE)
+
+        if self.weighted:
+            pass
+
 
         return nodes, edges
 
@@ -79,7 +84,6 @@ class Node:
 
     def shortest_path(self):
         self.colour = PINK
-
 
 
 def generate_random_graph():

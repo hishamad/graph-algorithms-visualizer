@@ -7,7 +7,6 @@ def handle_control_menu(event, graph):
     back = False
     if event.type == pygame.MOUSEBUTTONDOWN:
         if control_buttons[1].on_top(pygame.mouse.get_pos()):
-            control_buttons[0].not_hovered()
             control_buttons[1].hovered()
             control_buttons[1].text = 'Continue'
             draw(graph)
@@ -24,10 +23,12 @@ def handle_control_menu(event, graph):
                 draw(graph)
                 return reset, back
         elif control_buttons[2].on_top(pygame.mouse.get_pos()):
+            reset = True
             control_buttons[2].hovered()
             draw(graph)
             return reset, back
         elif control_buttons[3].on_top(pygame.mouse.get_pos()):
+            back = True
             return reset, back
 
     if event.type == pygame.QUIT:
@@ -37,13 +38,15 @@ def handle_control_menu(event, graph):
     return reset, back
 
 
-def update(graph):
+def update(graph, speed, up_graph=True):
     for event in pygame.event.get():
         reset, back = handle_control_menu(event, graph)
         if reset or back:
             return reset, back
-    draw(graph)
-    pygame.time.wait(500)
+
+    if up_graph:
+        draw(graph)
+        pygame.time.wait(speed)
 
     return False, False
 

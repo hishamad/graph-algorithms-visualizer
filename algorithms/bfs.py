@@ -1,20 +1,17 @@
 from utils import *
 
+reset, back, speed = False, False, 400
 
-reset, back = False, False
 
-
-def update_and_handle_events(graph):
-    global reset
-    global back
-    reset, back = update(graph)
+def update_and_handle_events(graph, up_graph=True):
+    global reset, back, speed
+    reset, back = update(graph, speed, up_graph)
     if reset or back:
         raise Error
 
 
 def bfs(graph):
-    global reset
-    global back
+    global reset, back
     s = 0
     q = [s]
     graph.nodes[s].visit()
@@ -31,7 +28,7 @@ def bfs(graph):
                     graph.nodes[neighbour].visit()
                     prev[neighbour] = u
                     graph.edges[u][neighbour].undirected_visit(graph.edges[neighbour][u])
-            update_and_handle_events(graph)
+                    update_and_handle_events(graph)
 
             for neighbour in graph.adjacency_list[u]:
                 if graph.nodes[neighbour].visited:
@@ -54,11 +51,11 @@ def reconstruct_path(s, prev, graph):
     curr = e
     while prev[curr]:
         try:
-            update_and_handle_events(graph)
             graph.nodes[curr].shortest_path()
             graph.nodes[prev[curr]].shortest_path()
             graph.edges[curr][prev[curr]].undirected_shortest_path(graph.edges[prev[curr]][curr])
             curr = prev[curr]
+            update_and_handle_events(graph)
         except Error:
             return
 
