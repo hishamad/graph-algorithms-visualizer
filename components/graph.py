@@ -1,6 +1,32 @@
 from config import *
 
 
+class Graph:
+    def __init__(self, adjacency_list):
+        self.adjacency_list = adjacency_list
+        self.nodes, self.edges = self.construct_graph()
+
+    def construct_graph(self):
+        nodes = []
+        edges = [{} for x in self.adjacency_list]
+        i, j = 0, 0
+        for x in range(int(0.1 * WIDTH), WIDTH, int(0.25 * WIDTH)):  # [200, 600, 1000, 1400]
+            for y in range(int(0.2 * HEIGHT), int(HEIGHT - 0.1 * HEIGHT), int(0.3 * HEIGHT)):  # [100, 500, 900]
+                if i % 2 == 0:
+                    x += int(0.025 * WIDTH)
+                else:
+                    y -= int(0.04 * WIDTH)
+                nodes.append(Node(x, y, LIGHT_GREY))
+                j += 1
+            i += 1
+
+        for node, neighbours in enumerate(self.adjacency_list):
+            for neighbour in neighbours:
+                edges[node][neighbour] = Edge(nodes[node].x, nodes[node].y, nodes[neighbour].x, nodes[neighbour].y, WHITE)
+
+        return nodes, edges
+
+
 class Edge:
     def __init__(self, x, y, x_2, y_2, colour):
         self.start = (x, y)
@@ -55,6 +81,7 @@ class Node:
         self.colour = PINK
 
 
+
 def generate_random_graph():
     n = 12
     p = 0.2
@@ -62,22 +89,3 @@ def generate_random_graph():
     return g
 
 
-def construct_graph(adjacency_list):
-    nodes = []
-    edges = [{} for x in adjacency_list]
-    i, j = 0, 0
-    for x in range(int(0.1 * WIDTH), WIDTH, int(0.25 * WIDTH)):  # [200, 600, 1000, 1400]
-        for y in range(int(0.2 * HEIGHT), int(HEIGHT - 0.1 * HEIGHT), int(0.3 * HEIGHT)):  # [100, 500, 900]
-            if i % 2 == 0:
-                x += int(0.025 * WIDTH)
-            else:
-                y -= int(0.04 * WIDTH)
-            nodes.append(Node(x, y, LIGHT_GREY))
-            j += 1
-        i += 1
-
-    for node, neighbours in enumerate(adjacency_list):
-        for neighbour in neighbours:
-            edges[node][neighbour] = Edge(nodes[node].x, nodes[node].y, nodes[neighbour].x, nodes[neighbour].y, WHITE)
-
-    return nodes, edges

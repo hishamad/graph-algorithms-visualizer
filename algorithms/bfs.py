@@ -1,65 +1,70 @@
-from config import *
 from utils import *
 
 
-def bfs(draw, adjacency_list, nodes, edges, control_buttons):
-    cont = True
+reset, back = False, False
+
+
+def update_and_handle_events(graph):
+    global reset
+    global back
+    reset, back = update(graph)
+    if reset or back:
+        raise Error
+
+
+def bfs(graph):
+    global reset
+    global back
     s = 0
     q = [s]
-    nodes[s].visit()
-    prev = [None] * len(nodes)
-    while q and cont:
-        for event in pygame.event.get():
-            cont = handle_control_menu(event, control_buttons, draw)
-            if not cont:
-                return
-        u = q.pop(0)
-        nodes[u].current()
-        update(draw)
+    graph.nodes[s].visit()
+    prev = [None] * len(graph.nodes)
+    while q:
+        try:
+            u = q.pop(0)
+            graph.nodes[u].current()
+            update_and_handle_events(graph)
 
-        for neighbour in adjacency_list[u]:
-            for event in pygame.event.get():
-                cont = handle_control_menu(event, control_buttons, draw)
-                if not cont:
-                    return
-            if not nodes[neighbour].visited:
-                q.append(neighbour)
-                nodes[neighbour].visit()
-                prev[neighbour] = u
-                edges[u][neighbour].undirected_visit(edges[neighbour][u])
+            for neighbour in graph.adjacency_list[u]:
+                if not graph.nodes[neighbour].visited:
+                    q.append(neighbour)
+                    graph.nodes[neighbour].visit()
+                    prev[neighbour] = u
+                    graph.edges[u][neighbour].undirected_visit(graph.edges[neighbour][u])
+            update_and_handle_events(graph)
 
-        update(draw)
+            for neighbour in graph.adjacency_list[u]:
+                if graph.nodes[neighbour].visited:
+                    graph.edges[u][neighbour].undirected_done(graph.edges[neighbour][u])
 
-        for neighbour in adjacency_list[u]:
-            for event in pygame.event.get():
-                cont = handle_control_menu(event, control_buttons, draw)
-                if not cont:
-                    return
-            if nodes[neighbour].visited:
-                edges[u][neighbour].undirected_done(edges[neighbour][u])
+            graph.nodes[u].done()
+            update_and_handle_events(graph)
 
-        nodes[u].done()
-        update(draw)
-    if not cont:
-        return
-    reconstruct_path(draw, s, prev, nodes, edges, control_buttons)
+        except Error:
+            break
+
+    if reset or back:
+        return reset, back
+    reconstruct_path(s, prev, graph)
+    return reset, back
 
 
-def reconstruct_path(draw, s, prev, nodes, edges, control_buttons):
+def reconstruct_path(s, prev, graph):
     e = 11
     curr = e
     while prev[curr]:
-        for event in pygame.event.get():
-            cont = handle_control_menu(event, control_buttons, draw)
-        nodes[curr].shortest_path()
-        nodes[prev[curr]].shortest_path()
-        edges[curr][prev[curr]].undirected_shortest_path(edges[prev[curr]][curr])
-        curr = prev[curr]
-        update(draw)
+        try:
+            update_and_handle_events(graph)
+            graph.nodes[curr].shortest_path()
+            graph.nodes[prev[curr]].shortest_path()
+            graph.edges[curr][prev[curr]].undirected_shortest_path(graph.edges[prev[curr]][curr])
+            curr = prev[curr]
+        except Error:
+            return
 
-    edges[curr][s].undirected_shortest_path(edges[s][curr])
-    nodes[s].shortest_path()
-    update(draw)
-
-
-
+    try:
+        graph.edges[curr][s].undirected_shortest_path(graph.edges[s][curr])
+        graph.nodes[s].shortest_path()
+        update_and_handle_events(graph)
+    except Error:
+        return

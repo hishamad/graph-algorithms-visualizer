@@ -23,17 +23,20 @@ dfs_button = Button(pygame.Rect(0.5 * WIDTH - 0.5 * MB_WIDTH, 0.25 * HEIGHT + 1.
 
 menu_buttons = [bfs_button, dfs_button]
 
+def draw_bfs_guide():
+    pass
 
-def draw_graph(nodes, edges):
-    for edge in edges:
+
+def draw_graph(graph):
+    for edge in graph.edges:
         for k, v in edge.items():
             v.display()
 
-    for i, node in enumerate(nodes):
+    for i, node in enumerate(graph.nodes):
         node.display()
         if i == 0:
             num = FONT.render(f'S', True, WHITE)
-        elif i == len(nodes) - 1:
+        elif i == len(graph.nodes) - 1:
             num = FONT.render(f'E', True, WHITE)
         else:
             num = FONT.render(f'{i}', True, WHITE)
@@ -47,7 +50,7 @@ def draw_menu():
     pygame.display.update()
 
 
-def draw(control_buttons, nodes, edges):
+def draw(graph):
     # 1) Draw menu
     WINDOW.fill(GREY)
     pygame.draw.rect(WINDOW, DARK_BLUE, CONTROL_MENU)
@@ -57,6 +60,6 @@ def draw(control_buttons, nodes, edges):
         btn.display()
 
     # Drawing the edges
-    draw_graph(nodes, edges)
+    draw_graph(graph)
 
     pygame.display.update()
