@@ -27,9 +27,6 @@ prim_button = Button(pygame.Rect(0.5 * WIDTH - 0.5 * MB_WIDTH, 0.25 * HEIGHT + 4
                     GREEN, "Prim’s algorithm")
 menu_buttons = [bfs_button, dfs_button, dij_button, prim_button]
 
-def draw_bfs_guide():
-    pass
-
 
 def draw_graph(graph):
     # Append the already processed edge so you print it once

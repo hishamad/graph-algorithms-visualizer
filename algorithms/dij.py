@@ -12,10 +12,9 @@ def update_and_handle_events(graph, up_graph=True):
         raise Error
 
 
-def dij(graph):
+def dij(graph, end=11):
     global reset, back
     s = 0
-    end = 11
     graph.nodes[s].current()
     graph.nodes[end].current()
     update_and_handle_events(graph)
@@ -33,7 +32,8 @@ def dij(graph):
                 if calc_dist[j] < mini and j in q:
                     mini = calc_dist[j]
                     u = j
-
+            if u == end:
+                break
             q.remove(u)
             if u != end and u != s:
                 graph.nodes[u].done()

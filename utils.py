@@ -31,8 +31,6 @@ def handle_control_menu(event, graph):
             back = True
             return reset, back
 
-
-
     if event.type == pygame.QUIT:
         pygame.quit()
         sys.exit()

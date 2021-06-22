@@ -65,7 +65,18 @@ def main():
                             handle_back_button()
                     elif start_button.on_top(pos) and is_dij:
                         weighted_graph = Graph(adjacency_matrix, True)
-                        reset, back = dij(weighted_graph)
+                        end = 0
+                        draw(weighted_graph)
+                        while not end:
+                            for ev in pygame.event.get():
+                                if ev.type == pygame.MOUSEBUTTONDOWN:
+                                    if pygame.mouse.get_pressed()[0]:
+                                        for i, node in enumerate(weighted_graph.nodes):
+                                            if node.on_top(pygame.mouse.get_pos()):
+                                                print(i)
+                                                end = i
+                                                break
+                        reset, back = dij(weighted_graph, end)
                         if reset:
                             weighted_graph = Graph(adjacency_matrix, True)
                         elif back:
