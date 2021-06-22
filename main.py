@@ -1,10 +1,9 @@
-import sys
-from config import *
+
 from components.graph import *
 from algorithms.bfs import *
 from algorithms.dfs import *
 from algorithms.dij import *
-
+from algorithms.prim import *
 from draw import *
 
 
@@ -83,7 +82,7 @@ def main():
                             handle_back_button()
                     elif start_button.on_top(pos) and is_prim:
                         weighted_graph = Graph(adjacency_matrix, True)
-                        reset, back = dij(weighted_graph)
+                        reset, back = prim(weighted_graph)
                         if reset:
                             weighted_graph = Graph(adjacency_matrix, True)
                         elif back:
