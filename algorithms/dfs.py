@@ -20,20 +20,23 @@ def dfs(graph):
         try:
             u = stack[-1]
             stack.pop()
-            graph.nodes[u].done()
+            graph.nodes[u].current()
+            update_and_handle_events(graph)
             if not visited[u]:
                 visited[u] = True
+                graph.nodes[u].visit()
                 update_and_handle_events(graph)
 
-            for v in graph.adjacency_list[u]:
+            for v in graph.graph_rep[u]:
                 if not visited[v]:
-                    graph.edges[u][v].undirected_visit(graph.edges[v][u])
                     graph.nodes[v].visit()
+                    graph.edges[u][v].undirected_visit(graph.edges[v][u])
                     update_and_handle_events(graph)
                     graph.edges[u][v].undirected_done(graph.edges[v][u])
                     update_and_handle_events(graph)
                     stack.append(v)
-
+            graph.nodes[u].done()
+            update_and_handle_events(graph)
         except Error:
             break
 

@@ -1,6 +1,7 @@
 import time
 from config import *
 from components.button import *
+import math
 
 # Buttons
 CB_WIDTH = 0.08 * WIDTH
@@ -20,24 +21,45 @@ bfs_button = Button(pygame.Rect(0.5 * WIDTH - 0.5 * MB_WIDTH, 0.25 * HEIGHT, MB_
                     'Breadth-First Search')
 dfs_button = Button(pygame.Rect(0.5 * WIDTH - 0.5 * MB_WIDTH, 0.25 * HEIGHT + 1.5 * MB_HEIGHT, MB_WIDTH, MB_HEIGHT),
                     GREEN, 'Depth-First Search')
-
-menu_buttons = [bfs_button, dfs_button]
+dij_button = Button(pygame.Rect(0.5 * WIDTH - 0.5 * MB_WIDTH, 0.25 * HEIGHT + 3 * MB_HEIGHT, MB_WIDTH, MB_HEIGHT),
+                    GREEN, "Dijkstra’s algorithm")
+prim_button = Button(pygame.Rect(0.5 * WIDTH - 0.5 * MB_WIDTH, 0.25 * HEIGHT + 4.5 * MB_HEIGHT, MB_WIDTH, MB_HEIGHT),
+                    GREEN, "Prim’s algorithm")
+menu_buttons = [bfs_button, dfs_button, dij_button, prim_button]
 
 def draw_bfs_guide():
     pass
 
 
 def draw_graph(graph):
-    for edge in graph.edges:
-        for k, v in edge.items():
-            v.display()
+    # Append the already processed edge so you print it once
+    already = [[False for i in range(len(graph.nodes))] for j in range(len(graph.nodes))]
+    for i, edges in enumerate(graph.edges):
+        for k, edge in edges.items():
+            edge.display()
+            if graph.weighted and not already[i][k]:
+                weight = FONT.render(f'{edge.weight}', True, WHITE)
+                x = edge.start[0] + (edge.end[0] - edge.start[0]) / 2
+                y = edge.start[1] + (edge.end[1] - edge.start[1]) / 2
+                if edge.end[0] - edge.start[0] == 0:
+                    weight = pygame.transform.rotozoom(weight, -90, 1)
+                    WINDOW.blit(weight, (x, y))
+                else:
+                    angle = math.degrees(math.atan((edge.end[1] - edge.start[1])/(edge.end[0] - edge.start[0])))
+                    weight = pygame.transform.rotozoom(weight, -angle, 1)
+                    if edge.end[1] - edge.start[1] <= 0:
+                        WINDOW.blit(weight, (x - weight.get_width(), y - weight.get_height()))
+                    else:
+                        WINDOW.blit(weight, (x, y - weight.get_height()))
+                already[i][k] = True
+                already[k][i] = True
 
     for i, node in enumerate(graph.nodes):
         node.display()
         if i == 0:
-            num = FONT.render(f'S', True, WHITE)
+            num = FONT.render('S', True, WHITE)
         elif i == len(graph.nodes) - 1:
-            num = FONT.render(f'E', True, WHITE)
+            num = FONT.render('E', True, WHITE)
         else:
             num = FONT.render(f'{i}', True, WHITE)
         WINDOW.blit(num, (node.x - num.get_width() / 2, node.y - num.get_height() / 2))

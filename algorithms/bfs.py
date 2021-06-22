@@ -22,7 +22,7 @@ def bfs(graph):
             graph.nodes[u].current()
             update_and_handle_events(graph)
 
-            for neighbour in graph.adjacency_list[u]:
+            for neighbour in graph.graph_rep[u]:
                 if not graph.nodes[neighbour].visited:
                     q.append(neighbour)
                     graph.nodes[neighbour].visit()
@@ -30,7 +30,7 @@ def bfs(graph):
                     graph.edges[u][neighbour].undirected_visit(graph.edges[neighbour][u])
                     update_and_handle_events(graph)
 
-            for neighbour in graph.adjacency_list[u]:
+            for neighbour in graph.graph_rep[u]:
                 if graph.nodes[neighbour].visited:
                     graph.edges[u][neighbour].undirected_done(graph.edges[neighbour][u])
 

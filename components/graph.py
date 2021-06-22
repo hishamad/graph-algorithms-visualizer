@@ -2,14 +2,14 @@ from config import *
 
 
 class Graph:
-    def __init__(self, adjacency_list, weighted=False):
-        self.adjacency_list = adjacency_list
+    def __init__(self, graph_rep, weighted=False):
+        self.graph_rep = graph_rep
         self.weighted = weighted
         self.nodes, self.edges = self.construct_graph()
 
     def construct_graph(self):
         nodes = []
-        edges = [{} for x in self.adjacency_list]
+        edges = [{} for x in self.graph_rep]
         i, j = 0, 0
         for x in range(int(0.1 * WIDTH), WIDTH, int(0.25 * WIDTH)):  # [200, 600, 1000, 1400]
             for y in range(int(0.2 * HEIGHT), int(HEIGHT - 0.1 * HEIGHT), int(0.3 * HEIGHT)):  # [100, 500, 900]
@@ -21,25 +21,30 @@ class Graph:
                 j += 1
             i += 1
 
-        for node, neighbours in enumerate(self.adjacency_list):
-            for neighbour in neighbours:
-                edges[node][neighbour] = Edge(nodes[node].x, nodes[node].y, nodes[neighbour].x, nodes[neighbour].y, WHITE)
-
         if self.weighted:
-            pass
+            for node, weights in enumerate(self.graph_rep):
+                for s_node, weight in enumerate(weights):
+                    if weight:
+                        edges[node][s_node] = Edge(nodes[node].x, nodes[node].y, nodes[s_node].x, nodes[s_node].y, WHITE, weight)
 
+        else:
+            for node, neighbours in enumerate(self.graph_rep):
+                for neighbour in neighbours:
+                    edges[node][neighbour] = Edge(nodes[node].x, nodes[node].y, nodes[neighbour].x, nodes[neighbour].y, WHITE)
 
         return nodes, edges
 
 
 class Edge:
-    def __init__(self, x, y, x_2, y_2, colour):
+    def __init__(self, x, y, x_2, y_2, colour, weight=0):
         self.start = (x, y)
         self.end = (x_2, y_2)
         self.colour = colour
+        self.weight = weight
 
     def display(self):
         pygame.draw.line(WINDOW, self.colour, self.start, self.end, LINE_THICKNESS)
+
 
     def directed_visit(self):
         self.colour = GREEN
@@ -84,6 +89,9 @@ class Node:
 
     def shortest_path(self):
         self.colour = PINK
+
+    def on_top(self, pos):
+        return pos[0] <= self.x + self.radius and pos[1] <= self.y + self.radius
 
 
 def generate_random_graph():
