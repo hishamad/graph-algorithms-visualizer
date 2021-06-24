@@ -15,8 +15,9 @@ weighted_graph = Graph(adjacency_matrix, True)
 
 def main():
     global menu_visible, is_dfs, is_bfs, is_dij, is_prim, graph, weighted_graph
-
+    clock = pygame.time.Clock()
     while True:
+        clock.tick(60)
         for event in pygame.event.get():
             pos = pygame.mouse.get_pos()
 
@@ -65,7 +66,6 @@ def handle_menu_buttons(pos):
             menu_visible = False
             if i == 0:
                 is_bfs = True
-                draw_bfs_guide()
             elif i == 1:
                 is_dfs = True
             elif i == 2:

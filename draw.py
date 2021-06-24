@@ -1,5 +1,5 @@
 import pygame.draw
-from config import *
+import os
 import math
 from buttons import *
 
@@ -38,16 +38,14 @@ def draw_graph(graph):
 
 
 def draw_menu():
-    WINDOW.fill(LIGHT_GREY)
+
+    background = pygame.image.load(os.path.join('resources', 'background.jpg')).convert()
+    WINDOW.blit(background, (0,0))
     title = BIG_FONT.render("Graph Algorithms Visualizer", True, WHITE)
-    WINDOW.blit(title, (0.5*WIDTH-title.get_width()/2, 0.075*HEIGHT))
+    WINDOW.blit(title, (0.5*WIDTH-title.get_width()/2, 0.065*HEIGHT))
     for btn in menu_buttons:
         btn.display()
     pygame.display.update()
-
-
-def draw_bfs_guide():
-    pass
 
 
 def draw_guide_rect():
