@@ -5,7 +5,7 @@ from algorithms.dfs import *
 from algorithms.dij import *
 from algorithms.prim import *
 from draw import *
-
+from handle import *
 
 menu_visible, is_dfs, is_bfs, is_dij, is_prim = True, False, False, False, False
 
@@ -48,18 +48,14 @@ def handle_back_button():
     is_dfs, is_bfs, is_dij, is_prim = False, False, False, False
 
 
-def choose_node(gh):
-    node = -1
-    while node == -1:
-        for ev in pygame.event.get():
-            if ev.type == pygame.MOUSEBUTTONDOWN:
-                if pygame.mouse.get_pressed()[0]:
-                    for i, node in enumerate(gh.nodes):
-                        if node.on_top(pygame.mouse.get_pos()):
-                            node = i
-                            break
-
-    return node
+def handle_reset(gr, reset, back):
+    if reset and gr.weighted:
+        gr = Graph(adjacency_matrix, True)
+    elif reset:
+        gr = Graph(adjacency_list)
+    elif back:
+        handle_back_button()
+    return gr
 
 
 def handle_menu_buttons(pos):
@@ -78,22 +74,6 @@ def handle_menu_buttons(pos):
                 is_prim = True
 
 
-def handle_reset(reset, back):
-    global graph
-    if reset:
-        graph = Graph(adjacency_list)
-    elif back:
-        handle_back_button()
-
-
-def handle_weighted_reset(reset, back):
-    global weighted_graph
-    if reset:
-        weighted_graph = Graph(adjacency_matrix, True)
-    elif back:
-        handle_back_button()
-
-
 def handle_control_buttons(pos):
     global weighted_graph, graph, is_bfs, is_dfs, is_dij, is_prim
     if reset_graph_button.on_top(pos):
@@ -103,42 +83,22 @@ def handle_control_buttons(pos):
         handle_back_button()
     elif start_button.on_top(pos) and is_bfs:
         graph = Graph(adjacency_list)
-        draw(graph)
-        start = choose_node(graph)
-        graph.nodes[start].start_end()
-        draw(graph)
-        end = choose_node(graph)
-        graph.nodes[end].start_end()
-        draw(graph)
+        start, end = handle_start_end_node(graph)
         reset, back = bfs(graph, start, end)
-        handle_reset(reset, back)
+        graph = handle_reset(graph, reset, back)
     elif start_button.on_top(pos) and is_dfs:
         graph = Graph(adjacency_list)
-        draw(graph)
-        start = choose_node(graph)
-        graph.nodes[start].start_end()
-        draw(graph)
-        end = choose_node(graph)
-        graph.nodes[end].start_end()
-        draw(graph)
+        start, end = handle_start_end_node(graph)
         reset, back = dfs(graph, start, end)
-        handle_reset(reset, back)
+        graph = handle_reset(graph, reset, back)
     elif start_button.on_top(pos) and is_dij:
         weighted_graph = Graph(adjacency_matrix, True)
-        draw(weighted_graph)
-        start = choose_node(weighted_graph)
-        weighted_graph.nodes[start].start_end()
-        draw(weighted_graph)
-        end = choose_node(weighted_graph)
-        weighted_graph.nodes[end].start_end()
-        draw(weighted_graph)
+        start, end = handle_start_end_node(weighted_graph)
         reset, back = dij(weighted_graph, start, end)
-
-        handle_weighted_reset(reset, back)
+        weighted_graph = handle_reset(weighted_graph, reset, back)
     elif start_button.on_top(pos) and is_prim:
         weighted_graph = Graph(adjacency_matrix, True)
         reset, back = prim(weighted_graph)
-        handle_weighted_reset(reset, back)
-
+        weighted_graph = handle_reset(weighted_graph, reset, back)
 
 main()

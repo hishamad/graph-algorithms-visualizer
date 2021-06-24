@@ -1,6 +1,6 @@
 from utils import *
 
-reset, back, speed = False, False, 400
+reset, back, speed = False, False, 300
 
 
 def update_and_handle_events(graph, up_graph=True):
