@@ -114,7 +114,14 @@ def handle_control_buttons(pos):
         handle_reset(reset, back)
     elif start_button.on_top(pos) and is_dfs:
         graph = Graph(adjacency_list)
-        reset, back = dfs(graph)
+        draw(graph)
+        start = choose_node(graph)
+        graph.nodes[start].start_end()
+        draw(graph)
+        end = choose_node(graph)
+        graph.nodes[end].start_end()
+        draw(graph)
+        reset, back = dfs(graph, start, end)
         handle_reset(reset, back)
     elif start_button.on_top(pos) and is_dij:
         weighted_graph = Graph(adjacency_matrix, True)
