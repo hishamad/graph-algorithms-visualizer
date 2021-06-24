@@ -119,8 +119,14 @@ def handle_control_buttons(pos):
     elif start_button.on_top(pos) and is_dij:
         weighted_graph = Graph(adjacency_matrix, True)
         draw(weighted_graph)
+        start = choose_node(weighted_graph)
+        weighted_graph.nodes[start].start_end()
+        draw(weighted_graph)
         end = choose_node(weighted_graph)
-        reset, back = dij(weighted_graph, end)
+        weighted_graph.nodes[end].start_end()
+        draw(weighted_graph)
+        reset, back = dij(weighted_graph, start, end)
+
         handle_weighted_reset(reset, back)
     elif start_button.on_top(pos) and is_prim:
         weighted_graph = Graph(adjacency_matrix, True)
