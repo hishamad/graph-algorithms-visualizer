@@ -35,8 +35,25 @@ LIGHT_GREY = (62, 66, 71)
 # Menu
 CM_FACTOR = 0.1
 CONTROL_MENU = pygame.Rect(0, HEIGHT-CM_FACTOR*HEIGHT, WIDTH, CM_FACTOR*HEIGHT)
+GUIDE_RECT = pygame.Rect(0.006 * WIDTH, 0.65 * HEIGHT, 0.1 * WIDTH, 0.24 * HEIGHT)
 
 # Graph settings
 NODE_RADIUS = WIDTH//int(0.018*WIDTH)
 LINE_THICKNESS = WIDTH//int(0.12*WIDTH)
 
+# Graph representations
+adjacency_list = [[1, 3, 4], [0, 4], [4], [0, 4], [0, 1, 2, 3, 5, 6],
+                  [4, 7, 8], [4, 9, 10], [5, 8, 11], [5, 7], [6], [6], [7]]
+
+adjacency_matrix = [[0, 5, 0, 4, 9, 0, 0, 0, 0, 0, 0, 0],
+                    [5, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 6, 0, 0, 0, 0, 0, 0, 0],
+                    [4, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0],
+                    [9, 7, 6, 3, 0, 7, 9, 0, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 7, 0, 0, 8, 2, 0, 0, 0],
+                    [0, 0, 0, 0, 9, 0, 0, 0, 0, 5, 7, 0],
+                    [0, 0, 0, 0, 0, 8, 0, 0, 4, 0, 0, 8],
+                    [0, 0, 0, 0, 0, 2, 0, 4, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 0, 0, 0, 8, 0, 0, 0, 0]]

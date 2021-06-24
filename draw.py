@@ -1,9 +1,9 @@
+from config import *
 import math
 from buttons import *
 
 
 def draw_graph(graph):
-    # Append the already processed edge so you print it once
     already = [[False for _ in range(len(graph.nodes))] for _ in range(len(graph.nodes))]
     for i, edges in enumerate(graph.edges):
         for k, edge in edges.items():
@@ -43,12 +43,23 @@ def draw_menu():
     pygame.display.update()
 
 
+def draw_bfs_guide():
+    pass
+
+
+def draw_guide_rect():
+    pygame.draw.rect(WINDOW, WHITE, GUIDE_RECT, width=3)
+
+
 def draw(graph):
-    # 1) Draw menu
+    # Draw menu
     WINDOW.fill(GREY)
     pygame.draw.rect(WINDOW, DARK_BLUE, CONTROL_MENU)
 
-    # 2) Adding the control_buttons0
+    # Draw the guide rectangle
+    draw_guide_rect()
+
+    # Adding the control_buttons0
     for btn in control_buttons:
         btn.display()
 
