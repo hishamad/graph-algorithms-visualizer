@@ -18,6 +18,7 @@ pygame.display.set_caption('Graph Algorithms Visualizer')
 
 # Font
 FONT = pygame.font.Font(os.path.join('resources', 'seguisym.ttf'), WIDTH//55)
+BIG_FONT = pygame.font.Font(os.path.join('resources', 'seguisym.ttf'), WIDTH//22)
 
 # Colours
 BLACK = (0, 0, 0)

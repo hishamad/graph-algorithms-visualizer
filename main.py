@@ -48,18 +48,18 @@ def handle_back_button():
     is_dfs, is_bfs, is_dij, is_prim = False, False, False, False
 
 
-def choose_end_node():
-    end = 0
-    while not end:
+def choose_node(gh):
+    node = -1
+    while node == -1:
         for ev in pygame.event.get():
             if ev.type == pygame.MOUSEBUTTONDOWN:
                 if pygame.mouse.get_pressed()[0]:
-                    for i, node in enumerate(weighted_graph.nodes):
+                    for i, node in enumerate(gh.nodes):
                         if node.on_top(pygame.mouse.get_pos()):
-                            end = i
+                            node = i
                             break
 
-    return end
+    return node
 
 
 def handle_menu_buttons(pos):
@@ -103,7 +103,14 @@ def handle_control_buttons(pos):
         handle_back_button()
     elif start_button.on_top(pos) and is_bfs:
         graph = Graph(adjacency_list)
-        reset, back = bfs(graph)
+        draw(graph)
+        start = choose_node(graph)
+        graph.nodes[start].start_end()
+        draw(graph)
+        end = choose_node(graph)
+        graph.nodes[end].start_end()
+        draw(graph)
+        reset, back = bfs(graph, start, end)
         handle_reset(reset, back)
     elif start_button.on_top(pos) and is_dfs:
         graph = Graph(adjacency_list)
@@ -112,7 +119,7 @@ def handle_control_buttons(pos):
     elif start_button.on_top(pos) and is_dij:
         weighted_graph = Graph(adjacency_matrix, True)
         draw(weighted_graph)
-        end = choose_end_node()
+        end = choose_node(weighted_graph)
         reset, back = dij(weighted_graph, end)
         handle_weighted_reset(reset, back)
     elif start_button.on_top(pos) and is_prim:
