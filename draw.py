@@ -1,3 +1,4 @@
+import pygame.draw
 from config import *
 import math
 from buttons import *
@@ -27,12 +28,12 @@ def draw_graph(graph):
 
     for i, node in enumerate(graph.nodes):
         node.display()
-        if i == 0:
-            num = FONT.render('S', True, WHITE)
-        elif i == len(graph.nodes) - 1:
-            num = FONT.render('E', True, WHITE)
-        else:
-            num = FONT.render(f'{i}', True, WHITE)
+        # if i == 0:
+        #     num = FONT.render('S', True, WHITE)
+        # elif i == len(graph.nodes) - 1:
+        #     num = FONT.render('E', True, WHITE)
+        # else:
+        num = FONT.render(f'{i}', True, WHITE)
         WINDOW.blit(num, (node.x - num.get_width() / 2, node.y - num.get_height() / 2))
 
 
@@ -49,6 +50,21 @@ def draw_bfs_guide():
 
 def draw_guide_rect():
     pygame.draw.rect(WINDOW, WHITE, GUIDE_RECT, width=3)
+    pygame.draw.circle(WINDOW, BLUE, (3.5*GUIDE_RECT.x, 1.05*GUIDE_RECT.y), GUIDE_RADIUS)
+    pygame.draw.circle(WINDOW, RED, (3.5*GUIDE_RECT.x, 1.12*GUIDE_RECT.y), GUIDE_RADIUS)
+    pygame.draw.circle(WINDOW, GREEN, (3.5*GUIDE_RECT.x, 1.19*GUIDE_RECT.y), GUIDE_RADIUS)
+    pygame.draw.circle(WINDOW, ORANGE, (3.5*GUIDE_RECT.x, 1.26*GUIDE_RECT.y), GUIDE_RADIUS)
+    pygame.draw.circle(WINDOW, PINK, (3.5*GUIDE_RECT.x, 1.33*GUIDE_RECT.y), GUIDE_RADIUS)
+    start_end = GUIDE_FONT.render("Start/End", True, WHITE)
+    processing = GUIDE_FONT.render("Processing", True, WHITE)
+    waiting = GUIDE_FONT.render("Waiting", True, WHITE)
+    processed = GUIDE_FONT.render("Processed", True, WHITE)
+    shortest = GUIDE_FONT.render("Shortest Path/MST", True, WHITE)
+    WINDOW.blit(start_end, (5*GUIDE_RECT.x, 1.05*GUIDE_RECT.y-start_end.get_height()/2))
+    WINDOW.blit(processing, (5*GUIDE_RECT.x, 1.12*GUIDE_RECT.y-processing.get_height()/2))
+    WINDOW.blit(waiting, (5*GUIDE_RECT.x, 1.19*GUIDE_RECT.y-waiting.get_height()/2))
+    WINDOW.blit(processed, (5*GUIDE_RECT.x, 1.26*GUIDE_RECT.y-processed.get_height()/2))
+    WINDOW.blit(shortest, (5*GUIDE_RECT.x, 1.33*GUIDE_RECT.y-shortest.get_height()/2))
 
 
 def draw(graph):

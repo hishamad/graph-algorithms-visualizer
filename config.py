@@ -35,7 +35,11 @@ LIGHT_GREY = (62, 66, 71)
 # Menu
 CM_FACTOR = 0.1
 CONTROL_MENU = pygame.Rect(0, HEIGHT-CM_FACTOR*HEIGHT, WIDTH, CM_FACTOR*HEIGHT)
-GUIDE_RECT = pygame.Rect(0.006 * WIDTH, 0.65 * HEIGHT, 0.1 * WIDTH, 0.24 * HEIGHT)
+
+# Guide
+GUIDE_RECT = pygame.Rect(0.006 * WIDTH, 0.65 * HEIGHT, 0.13 * WIDTH, 0.24 * HEIGHT)
+GUIDE_RADIUS = WIDTH//int(0.08*WIDTH)
+GUIDE_FONT = pygame.font.Font(os.path.join('resources', 'seguisym.ttf'), WIDTH//80)
 
 # Graph settings
 NODE_RADIUS = WIDTH//int(0.018*WIDTH)

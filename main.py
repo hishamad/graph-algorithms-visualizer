@@ -1,10 +1,11 @@
+from config import *
 from components.graph import *
 from algorithms.bfs import *
 from algorithms.dfs import *
 from algorithms.dij import *
 from algorithms.prim import *
 from draw import *
-from config import *
+
 
 menu_visible, is_dfs, is_bfs, is_dij, is_prim = True, False, False, False, False
 
