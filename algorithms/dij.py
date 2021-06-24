@@ -15,8 +15,8 @@ def update_and_handle_events(graph, up_graph=True):
 def dij(graph, end=11):
     global reset, back
     s = 0
-    graph.nodes[s].current()
-    graph.nodes[end].current()
+    graph.nodes[s].start_end()
+    graph.nodes[end].start_end()
     update_and_handle_events(graph)
     n = len(graph.graph_rep)
     calc_dist = [MAXINT] * n

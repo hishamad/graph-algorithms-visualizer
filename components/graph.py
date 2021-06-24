@@ -71,7 +71,6 @@ class Node:
         self.x = x
         self.y = y
         self.colour = colour
-        self.visited = False
 
     def display(self):
         gfxdraw.aacircle(WINDOW, self.x, self.y, self.radius, self.colour)
@@ -79,7 +78,6 @@ class Node:
 
     def visit(self):
         self.colour = GREEN
-        self.visited = True
 
     def current(self):
         self.colour = RED
@@ -89,6 +87,9 @@ class Node:
 
     def shortest_path(self):
         self.colour = PINK
+
+    def start_end(self):
+        self.colour = BLUE
 
     def on_top(self, pos):
         return pos[0] <= self.x + self.radius and pos[1] <= self.y + self.radius

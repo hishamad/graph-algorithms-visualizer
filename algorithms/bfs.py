@@ -10,31 +10,42 @@ def update_and_handle_events(graph, up_graph=True):
         raise Error
 
 
-def bfs(graph):
+def bfs(graph, end=11):
     global reset, back
     s = 0
     q = [s]
-    graph.nodes[s].visit()
+
+    graph.nodes[s].start_end()
+    graph.nodes[end].start_end()
+
+    visited = [False] * len(graph.nodes)
+    visited[s] = True
     prev = [None] * len(graph.nodes)
+
     while q:
         try:
             u = q.pop(0)
-            graph.nodes[u].current()
+            if u != end and u != s:
+                graph.nodes[u].current()
             update_and_handle_events(graph)
 
             for neighbour in graph.graph_rep[u]:
-                if not graph.nodes[neighbour].visited:
+                if not visited[neighbour]:
                     q.append(neighbour)
-                    graph.nodes[neighbour].visit()
+                    if neighbour != end and neighbour != s:
+                        graph.nodes[neighbour].visit()
+                    visited[neighbour] = True
                     prev[neighbour] = u
                     graph.edges[u][neighbour].undirected_visit(graph.edges[neighbour][u])
                     update_and_handle_events(graph)
 
             for neighbour in graph.graph_rep[u]:
-                if graph.nodes[neighbour].visited:
+                if visited[neighbour]:
                     graph.edges[u][neighbour].undirected_done(graph.edges[neighbour][u])
 
-            graph.nodes[u].done()
+            if u != end and u != s:
+                graph.nodes[u].done()
+
             update_and_handle_events(graph)
 
         except Error:
@@ -51,8 +62,9 @@ def reconstruct_path(s, prev, graph):
     curr = e
     while prev[curr]:
         try:
-            graph.nodes[curr].shortest_path()
-            graph.nodes[prev[curr]].shortest_path()
+            if curr != e and curr != s:
+                graph.nodes[curr].shortest_path()
+                graph.nodes[prev[curr]].shortest_path()
             graph.edges[curr][prev[curr]].undirected_shortest_path(graph.edges[prev[curr]][curr])
             curr = prev[curr]
             update_and_handle_events(graph)
@@ -61,7 +73,6 @@ def reconstruct_path(s, prev, graph):
 
     try:
         graph.edges[curr][s].undirected_shortest_path(graph.edges[s][curr])
-        graph.nodes[s].shortest_path()
         update_and_handle_events(graph)
     except Error:
         return
