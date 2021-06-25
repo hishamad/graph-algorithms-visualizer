@@ -31,9 +31,6 @@ def dij(graph, start=0, end=11):
             if u == end:
                 break
             q.remove(u)
-            if u != end and u != start:
-                graph.nodes[u].done()
-                update_and_handle_events(graph)
 
             for v in range(start, n):
                 if graph.graph_rep[u][v] and v in q:
@@ -46,6 +43,10 @@ def dij(graph, start=0, end=11):
                         parent[v] = u
                     graph.edges[u][v].undirected_done(graph.edges[v][u])
                     update_and_handle_events(graph)
+
+            if u != end and u != start:
+                graph.nodes[u].done()
+                update_and_handle_events(graph)
         except Error:
             break
     if reset or back:
