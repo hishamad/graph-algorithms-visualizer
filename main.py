@@ -1,4 +1,3 @@
-from config import *
 from components.graph import *
 from algorithms.bfs import *
 from algorithms.dfs import *

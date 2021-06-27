@@ -23,6 +23,7 @@ def dij(graph, start=0, end=11):
     while q:
         try:
             mini = MAXINT
+            u = 0
             for j in range(start, n):
                 if calc_dist[j] < mini and j in q:
                     mini = calc_dist[j]

@@ -1,9 +1,5 @@
 import os
-import time
-import sys
 import pygame
-from pygame import gfxdraw
-from networkx.generators.random_graphs import gnp_random_graph
 
 pygame.init()
 pygame.font.init()

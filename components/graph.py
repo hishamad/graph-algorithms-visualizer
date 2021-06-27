@@ -1,4 +1,6 @@
 from config import *
+from networkx.generators.random_graphs import gnp_random_graph
+from pygame import gfxdraw
 
 
 class Graph:
@@ -9,7 +11,7 @@ class Graph:
 
     def construct_graph(self):
         nodes = []
-        edges = [{} for x in self.graph_rep]
+        edges = [{} for _ in self.graph_rep]
         i, j = 0, 0
         for x in range(int(0.1 * WIDTH), WIDTH, int(0.25 * WIDTH)):  # [200, 600, 1000, 1400]
             for y in range(int(0.2 * HEIGHT), int(HEIGHT - 0.1 * HEIGHT), int(0.3 * HEIGHT)):  # [100, 500, 900]
@@ -25,12 +27,16 @@ class Graph:
             for node, weights in enumerate(self.graph_rep):
                 for s_node, weight in enumerate(weights):
                     if weight:
-                        edges[node][s_node] = Edge(nodes[node].x, nodes[node].y, nodes[s_node].x, nodes[s_node].y, WHITE, weight)
+                        edges[node][s_node] = Edge(nodes[node].x, nodes[node].y,
+                                                   nodes[s_node].x, nodes[s_node].y,
+                                                   WHITE, weight)
 
         else:
             for node, neighbours in enumerate(self.graph_rep):
                 for neighbour in neighbours:
-                    edges[node][neighbour] = Edge(nodes[node].x, nodes[node].y, nodes[neighbour].x, nodes[neighbour].y, WHITE)
+                    edges[node][neighbour] = Edge(nodes[node].x, nodes[node].y,
+                                                  nodes[neighbour].x, nodes[neighbour].y,
+                                                  WHITE)
 
         return nodes, edges
 
@@ -44,7 +50,6 @@ class Edge:
 
     def display(self):
         pygame.draw.line(WINDOW, self.colour, self.start, self.end, LINE_THICKNESS)
-
 
     def directed_visit(self):
         self.colour = GREEN
@@ -100,5 +105,3 @@ def generate_random_graph():
     p = 0.2
     g = gnp_random_graph(n, p, seed=None, directed=False)
     return g
-
-

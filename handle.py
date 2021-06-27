@@ -1,8 +1,4 @@
-from config import *
-from components.graph import *
 from draw import *
-
-
 
 
 def handle_start_end_node(gr):
@@ -14,6 +10,7 @@ def handle_start_end_node(gr):
     gr.nodes[end].start_end()
     draw(gr)
     return start, end
+
 
 def choose_node(gh):
     node = -1
